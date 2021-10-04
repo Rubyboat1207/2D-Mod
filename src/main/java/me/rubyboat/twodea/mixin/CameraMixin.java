@@ -67,10 +67,12 @@ public abstract class CameraMixin {
             }
 
         }else if (focusedEntity instanceof LivingEntity && ((LivingEntity)focusedEntity).isSleeping()) {
-
-            Direction direction = ((LivingEntity)focusedEntity).getSleepingDirection();
-            this.setRotation(direction != null ? direction.asRotation() - 180.0F : 0.0F, 0.0F);
-            this.moveBy(0.0D, 0.3D, 0.0D);
+            /////TODO: add a way of doing firstperson
+            //Direction direction = ((LivingEntity)focusedEntity).getSleepingDirection();
+            //this.setRotation(direction != null ? direction.asRotation() - 180.0F : 0.0F, 0.0F);
+            //this.moveBy(0.0D, 0.3D, 0.0D);
+            this.setPos(new Vec3d(this.pos.x, cameradistance, this.pos.z));
+            this.setRotation(0, -90);
         }
         ci.cancel();
     }
