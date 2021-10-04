@@ -37,6 +37,7 @@ public abstract class CameraMixin {
     @Shadow private float cameraY;
     public Boolean Is2D = false;
     public int cameradistance = 6;
+    
 
     @Inject(at = @At("HEAD"), method = "update", cancellable = true)
     private void update(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
@@ -47,7 +48,10 @@ public abstract class CameraMixin {
         this.thirdPerson = thirdPerson;
         this.setRotation(focusedEntity.getYaw(tickDelta), focusedEntity.getPitch(tickDelta));
         this.setPos(new Vec3d(MathHelper.lerp((double)tickDelta, focusedEntity.prevX, focusedEntity.getX()), MathHelper.lerp((double)tickDelta, focusedEntity.prevY, focusedEntity.getY()) + (double)MathHelper.lerp(tickDelta, this.lastCameraY, this.cameraY), MathHelper.lerp((double)tickDelta, focusedEntity.prevZ, focusedEntity.getZ())));
-
+        if(ExampleMod.firstpersonkey.wasPressed())
+        {
+            Is2D = !Is2D;
+        }
         if (thirdPerson) {
             if(ExampleMod.changedistancekey.wasPressed())
             {
@@ -67,10 +71,12 @@ public abstract class CameraMixin {
             }
 
         }else if (focusedEntity instanceof LivingEntity && ((LivingEntity)focusedEntity).isSleeping()) {
-            /////TODO: add a way of doing firstperson
-            //Direction direction = ((LivingEntity)focusedEntity).getSleepingDirection();
-            //this.setRotation(direction != null ? direction.asRotation() - 180.0F : 0.0F, 0.0F);
-            //this.moveBy(0.0D, 0.3D, 0.0D);
+            if(Is2D)
+            {
+                Direction direction = ((LivingEntity)focusedEntity).getSleepingDirection();
+                this.setRotation(direction != null ? direction.asRotation() - 180.0F : 0.0F, 0.0F);
+                this.moveBy(0.0D, 0.3D, 0.0D);
+            }
             this.setPos(new Vec3d(this.pos.x, cameradistance, this.pos.z));
             this.setRotation(0, -90);
         }
