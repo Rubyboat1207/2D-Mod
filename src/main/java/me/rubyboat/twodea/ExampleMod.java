@@ -17,7 +17,7 @@ public class ExampleMod implements ModInitializer {
 			GLFW.GLFW_KEY_K,
 			"category." + ns + ".keys"
 	));
-	public static KeyBinding changedistancekey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+	public static KeyBinding firstpersonkey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 			"key." + ns + ".firstperson",
 			InputUtil.Type.KEYSYM,
 			GLFW.GLFW_KEY_N,
